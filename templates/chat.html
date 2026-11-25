@@ -1,112 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Medical Chatbot</title>
+<!DOCTYPE html>  <!-- Defines the document type and version of HTML being used -->
+<html lang="en"> <!-- Root element of the HTML document with language set to English -->
+<head>  <!-- Head section contains metadata, title, styles, and links -->
+
+  <meta charset="UTF-8" />  <!-- Defines the character encoding for the document -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <!-- Makes the page responsive on mobile devices -->
+  <title>Medical Chatbot</title>  <!-- Title of the webpage shown on the browser tab -->
+
   <!-- Bootstrap CSS -->
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet"
-  />
-  <style>
+  />  <!-- Imports Bootstrap 5 CSS framework for responsive design and prebuilt components -->
+
+  <style>  /* Internal CSS styling section */
     body {
-      background: linear-gradient(to bottom, #1e3c72, #2a5298); /* blue ink style */
-      min-height: 100vh;
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298); /* Blue gradient background */
+      min-height: 100vh; /* Makes the body take full viewport height */
+      color: white; /* Default text color */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font style */
     }
     .chat-container {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 20px;
-      max-width: 800px;
-      margin: 40px auto;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+      border-radius: 16px; /* Rounded corners */
+      padding: 20px; /* Inner spacing */
+      max-width: 800px; /* Limits the container width */
+      margin: 40px auto; /* Centers the container horizontally with top-bottom margin */
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2); /* Adds a shadow effect */
     }
     .chat-box {
-      height: 400px;
-      overflow-y: auto;
-      background-color: rgba(0, 0, 0, 0.2);
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
+      height: 400px; /* Fixed chat area height */
+      overflow-y: auto; /* Enables vertical scrolling */
+      background-color: rgba(0, 0, 0, 0.2); /* Slightly dark transparent background */
+      border-radius: 10px; /* Rounded corners */
+      padding: 15px; /* Inner space */
+      margin-bottom: 15px; /* Space below chat box */
     }
     .user-msg {
-      text-align: right;
-      color: #00d9ff;
+      text-align: right; /* Aligns user's messages to the right */
+      color: #00d9ff; /* Blue color for user messages */
     }
     .bot-msg {
-      text-align: left;
-      color: #f8f9fa;
+      text-align: left; /* Aligns bot's messages to the left */
+      color: #f8f9fa; /* Light color for bot messages */
     }
     .chat-input {
-      display: flex;
-      gap: 10px;
+      display: flex; /* Aligns input and button in a single row */
+      gap: 10px; /* Space between input box and button */
     }
     .btn-primary {
-      background-color: #007bff;
-      border: none;
+      background-color: #007bff; /* Custom blue color for button */
+      border: none; /* Removes button border */
     }
     .logo-img {
-      max-width: 80px;
-      margin-bottom: 10px;
+      max-width: 80px; /* Restricts the logo size */
+      margin-bottom: 10px; /* Adds spacing below the logo */
     }
   </style>
 </head>
-<body>
 
-  <div class="container chat-container text-center">
-    <img src="https://cdn-icons-png.flaticon.com/512/3771/3771518.png" alt="Medical Bot" class="logo-img" />
-    <h2 class="mb-4">Ask your Medical Chatbot</h2>
+<body>  <!-- Main visible content of the webpage -->
 
-    <div id="chatBox" class="chat-box text-start"></div>
+  <div class="container chat-container text-center">  <!-- Centered chat container with Bootstrap classes -->
+    <img src="https://cdn-icons-png.flaticon.com/512/3771/3771518.png" alt="Medical Bot" class="logo-img" /> <!-- Chatbot logo image -->
+    <h2 class="mb-4">Ask your Medical Chatbot</h2>  <!-- Main heading with margin-bottom -->
 
-    <div class="chat-input">
+    <div id="chatBox" class="chat-box text-start"></div>  <!-- Chat messages will appear here dynamically -->
+
+    <div class="chat-input">  <!-- Container for input box and send button -->
       <input
         type="text"
         id="userInput"
         class="form-control"
         placeholder="Type your medical question..."
-      />
-      <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+      />  <!-- Text input field for user's question -->
+      <button class="btn btn-primary" onclick="sendMessage()">Send</button>  <!-- Button to send message calling sendMessage() function -->
     </div>
   </div>
 
   <!-- Bootstrap & Axios -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    const chatBox = document.getElementById("chatBox");
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> <!-- Imports Axios library for HTTP requests -->
 
+  <script>  // JavaScript code starts here
+
+    const chatBox = document.getElementById("chatBox");  // Selects the chat message container element by its ID
+
+    // Function to append (add) a message to the chat window
     function appendMessage(message, sender) {
-      const msgDiv = document.createElement("div");
-      msgDiv.classList.add(sender === "user" ? "user-msg" : "bot-msg");
-      msgDiv.innerText = message;
-      chatBox.appendChild(msgDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
+      const msgDiv = document.createElement("div");  // Creates a new <div> element for the message
+      msgDiv.classList.add(sender === "user" ? "user-msg" : "bot-msg");  // Adds class based on sender type
+      msgDiv.innerText = message;  // Sets the text content of the message div
+      chatBox.appendChild(msgDiv);  // Adds the message div to the chat box
+      chatBox.scrollTop = chatBox.scrollHeight;  // Auto-scrolls to the bottom of the chat box
     }
 
+    // Function to send the user's message and get a response from the backend
     async function sendMessage() {
-      const input = document.getElementById("userInput");
-      const question = input.value.trim();
-      if (!question) return;
+      const input = document.getElementById("userInput");  // Gets the input element
+      const question = input.value.trim();  // Gets and trims user input (removes spaces)
+      if (!question) return;  // If input is empty, stop function execution
 
-      appendMessage("You: " + question, "user");
-      input.value = "";
+      appendMessage("You: " + question, "user");  // Displays user's message in chat
+      input.value = "";  // Clears input box after sending
 
       try {
+        // Sends POST request to backend '/chat' route with user's question
         const response = await axios.post("/chat", { query: question });
-        appendMessage("Bot: " + response.data.response, "bot");
+        appendMessage("Bot: " + response.data.response, "bot");  // Displays bot's reply
       } catch (error) {
-        appendMessage("Bot: Sorry, something went wrong!", "bot");
+        appendMessage("Bot: Sorry, something went wrong!", "bot");  // Error handling message
       }
     }
 
+    // Adds event listener to detect when user presses "Enter" key
     document
       .getElementById("userInput")
-      .addEventListener("keypress", function (e) {
-        if (e.key === "Enter") {
-          sendMessage();
+      .addEventListener("keypress", function (e) {  // Listens for key press events on input box
+        if (e.key === "Enter") {  // If Enter key is pressed
+          sendMessage();  // Calls sendMessage() to send the message
         }
       });
   </script>
