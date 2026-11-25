@@ -57,4 +57,7 @@ open up localhost:
 -Meta Llama2
 -Pinecone
 
+### Output of the Project :-
+
+<img width="1080" height="936" alt="image" src="https://github.com/user-attachments/assets/3a013f73-8ba4-4293-bd01-77105123c741" />
 
