@@ -108,5 +108,9 @@ def chat():
         return jsonify({"response": "Sorry, something went wrong."}), 500  # Sends error message with HTTP 500
 
 # Runs the Flask app
-if __name__ == '__main__':
-    app.run(debug=True)  # Starts Flask server in debug mode for live reload and error tracing
+# if __name__ == '__main__':
+#     app.run(debug=True)  # Starts Flask server in debug mode for live reload and error tracing
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
