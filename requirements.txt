@@ -10,15 +10,16 @@
 # gunicorn
 # langchain-pinecone
 
+
 flask
 langchain==0.2.17
 langchain-community==0.2.19
 langchain-core==0.2.43
-langchain-pinecone==0.2.13
-pinecone
+langchain-pinecone==0.1.3
+pinecone-client
 ctransformers
 python-dotenv
 sentence-transformers
 transformers
-pydantic>=2.7.0
+pydantic>=2.7.0,<3.0.0
 gunicorn
