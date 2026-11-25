@@ -7,3 +7,4 @@ python-dotenv
 sentence-transformers
 transformers
 pydantic>=2.7.0
+gunicorn
